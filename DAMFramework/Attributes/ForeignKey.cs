@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DAM_ORMFramework.Attribute
 {
-    class ForeignKey:System.Attribute
+    public class ForeignKey:System.Attribute
     {
         public string ReferID { get; set; }
         public string Name { get; set; }

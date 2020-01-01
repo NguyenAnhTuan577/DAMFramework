@@ -18,7 +18,7 @@ namespace DAM_ORMFramework.Mapping
         public abstract int Update<T>(T obj) where T : new();
         public abstract int Delete<T>(T obj) where T : new();
         public abstract List<T> ExecuteQuery<T>(string query) where T : new();
-        public abstract void ExecuteNonQuery(string query);
+        public abstract int ExecuteNonQuery(string query);
         public abstract List<T> ExecuteQueryNotRelationship<T>(string query) where T : new();
 
     }

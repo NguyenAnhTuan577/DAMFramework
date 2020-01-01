@@ -38,7 +38,7 @@ namespace DAMFramework.Attributes
                 return null;
         }
 
-        public static List<ForeignKey> GetForeignKeys<T>(string relationshipID) where T : new()
+        public static List<ForeignKey> GetForeignKeys<T>(string referID) where T : new()
         {
             List<ForeignKey> foreignKeys = new List<ForeignKey>();
 
@@ -47,7 +47,7 @@ namespace DAMFramework.Attributes
             {
                 var attributes = property.GetCustomAttributes(false);
                 var foreignKeyAttribute = FirstOrDefault(attributes, typeof(ForeignKey));
-                if (foreignKeyAttribute != null && (foreignKeyAttribute as ForeignKey).RelationshipID == relationshipID)
+                if (foreignKeyAttribute != null && (foreignKeyAttribute as ForeignKey).ReferID == referID)
                     foreignKeys.Add(foreignKeyAttribute as ForeignKey);
             }
 

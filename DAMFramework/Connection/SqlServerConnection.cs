@@ -36,10 +36,10 @@ namespace DAM_ORMFramework.Mapping
             return deleteQuery.ExecuteNonQuery();
         }
 
-        public override void ExecuteNonQuery(string query)
+        public override int ExecuteNonQuery(string query)
         {
             SqlQuery execute = new SqlQuery(cnn, cnnString, query);
-            return execute.ExecuteNonQuery<T>();
+            return execute.ExecuteNonQuery();
         }
 
         public override List<T> ExecuteQuery<T>(string query)

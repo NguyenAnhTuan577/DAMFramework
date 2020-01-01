@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace DAM_ORMFramework.Query
 {
-    class WhereClause
+    public interface WhereClause<T> where T : new()
     {
+        HavingClause<T> Where(string condition);
+        HavingClause<T> Rows();
     }
 }

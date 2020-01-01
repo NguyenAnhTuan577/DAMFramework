@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace DAM_ORMFramework.Query
 {
-    class HavingClause
+    public interface HavingClause<T> where T : new()
     {
+        GroupByClause<T> Having(string condition);
+        List<T> Execute();
     }
 }

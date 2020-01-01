@@ -11,6 +11,7 @@ namespace DAM_ORMFramework.Attribute
         INT,
         FLOAT,
         CHAR,
+        NCHAR,
         VARCHAR,
         NVARCHAR,
         DATETIME,

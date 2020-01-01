@@ -44,6 +44,7 @@
     <Compile Include="Attributes\Column.cs" />
     <Compile Include="Attributes\DataType.cs" />
     <Compile Include="Attributes\ForeignKey.cs" />
+    <Compile Include="Attributes\HandleAttribute.cs" />
     <Compile Include="Attributes\ManyToOne.cs" />
     <Compile Include="Attributes\OneToMany.cs" />
     <Compile Include="Attributes\OneToOne.cs" />

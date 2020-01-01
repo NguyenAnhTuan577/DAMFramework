@@ -49,7 +49,7 @@ namespace DAM_ORMFramework.Mapping
             for(int i = 0; i < length; i++)
             {
                 var attr = props[i].GetCustomAttributes(false);
-                var columnMapping = FirstOrDefault(attr, typeof(Column));
+                var columnMapping = HandleAttribute.FirstOrDefault(attr, typeof(Column));
                 if (columnMapping != null)
                 {
                     var mapsTo = columnMapping as Column;

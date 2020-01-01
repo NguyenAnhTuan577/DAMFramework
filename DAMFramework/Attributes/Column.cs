@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DAM_ORMFramework.Attribute
 {
-    class Column:System.Attribute
+    public class Column:System.Attribute
     {
         public string Name { get; set; }
         public DataType Type { get; set; }

@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace DAM_ORMFramework.Query
 {
-    class GroupByClause
+    public interface GroupByClause<T> where T : new()
     {
+        CompletedQuery<T> GroupBy(string column);
     }
 }

@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace DAM_ORMFramework.Query
 {
-    class CompletedQuery
+    public interface CompletedQuery<T> where T : new()
     {
+        List<T> Execute();
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DAM_ORMFramework.Attribute
 {
-    class ManyToOne:System.Attribute
+    public class ManyToOne:System.Attribute
     {
         public string ReferID { get; set; }
         public string TableName { get; set; }
