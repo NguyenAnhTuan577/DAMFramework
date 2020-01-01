@@ -8,5 +8,12 @@ namespace DAM_ORMFramework.Attribute
 {
     public enum DataType
     {
+        INT,
+        FLOAT,
+        CHAR,
+        VARCHAR,
+        NVARCHAR,
+        DATETIME,
+        BOOL
     }
 }

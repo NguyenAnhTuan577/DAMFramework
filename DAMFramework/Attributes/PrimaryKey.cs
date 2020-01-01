@@ -6,7 +6,15 @@ using System.Threading.Tasks;
 
 namespace DAM_ORMFramework.Attribute
 {
-    class PrimaryKey
+    class PrimaryKey:System.Attribute
     {
+        public string Name { get; set; }
+        public bool GenerateID { get; set; }
+        
+        public PrimaryKey(string name, string generateid)
+        {
+            Name = name;
+            GenerateID = generateid;
+        }
     }
 }

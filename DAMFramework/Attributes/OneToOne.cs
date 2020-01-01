@@ -6,7 +6,15 @@ using System.Threading.Tasks;
 
 namespace DAM_ORMFramework.Attribute
 {
-    class OneToOne
+    class OneToOne:System.Attribute
     {
+        public string ReferID { get; set; }
+        public string TableName { get; set; }
+
+        public OneToOne(string referId, string tablename)
+        {
+            ReferID = referId;
+            TableName = tablename;
+        }
     }
 }
