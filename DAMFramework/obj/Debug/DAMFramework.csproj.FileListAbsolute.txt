@@ -1,0 +1,6 @@
+D:\School\Mẫu Thiết Kế và Hướng Đối Tượng\Đồ án\My Code\DAMFramework\DAMFramework\bin\Debug\DAMFramework.dll
+D:\School\Mẫu Thiết Kế và Hướng Đối Tượng\Đồ án\My Code\DAMFramework\DAMFramework\bin\Debug\DAMFramework.pdb
+D:\School\Mẫu Thiết Kế và Hướng Đối Tượng\Đồ án\My Code\DAMFramework\DAMFramework\obj\Debug\DAMFramework.csprojAssemblyReference.cache
+D:\School\Mẫu Thiết Kế và Hướng Đối Tượng\Đồ án\My Code\DAMFramework\DAMFramework\obj\Debug\DAMFramework.csproj.CoreCompileInputs.cache
+D:\School\Mẫu Thiết Kế và Hướng Đối Tượng\Đồ án\My Code\DAMFramework\DAMFramework\obj\Debug\DAMFramework.dll
+D:\School\Mẫu Thiết Kế và Hướng Đối Tượng\Đồ án\My Code\DAMFramework\DAMFramework\obj\Debug\DAMFramework.pdb
