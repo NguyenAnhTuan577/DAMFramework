@@ -188,7 +188,7 @@ namespace DAM_ORMFramework.Mapping
             int length = attributes.Length;
             for(int i=0; i < length; i++)
             {
-                if(attributes[i]== type)
+                if(attributes[i].GetType() == type)
                 {
                     attrs.Add(attributes[i]);
                 }

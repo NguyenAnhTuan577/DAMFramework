@@ -1,5 +1,6 @@
 ﻿using DAM_ORMFramework.Attribute;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -27,26 +28,35 @@ namespace DAM_ORMFramework.Mapping
                         if (type.IsGenericType)
                         {
                             SqlMapper sqlServerMapper = new SqlMapper();
-                            Type itemType = type.GetGenericArguments()[0];
-                            MethodInfo getTableNameMethod = sqlServerMapper.GetType().GetMethod("GetTable")
-                               .MakeGenericMethod(new Type[] { itemType });
-                            string tableName = getTableNameMethod.Invoke(sqlServerMapper, null) as string;
+                            Type typeArguments = type.GetGenericArguments()[0];
+                            MethodInfo getTableMethod = sqlServerMapper
+                                                        .GetType()
+                                                        .GetMethod("GetTable")
+                                                        .MakeGenericMethod(new Type[] { typeArguments });
+                            string tbName = getTableMethod.Invoke(sqlServerMapper, null) as string;
 
-                            MethodInfo getForeignKeyAttributeMethod = sqlServerMapper.GetType().GetMethod("GetFK")
-                                .MakeGenericMethod(new Type[] { itemType });
-                            List<ForeignKey> foreignKeyAttributes = getForeignKeyAttributeMethod.Invoke(sqlServerMapper, new object[] { relationshipAtrr.ReferID }) as List<ForeignKey>;
 
-                            MethodInfo getColumnAttributeMethod = sqlServerMapper.GetType().GetMethod("GetColumns")
-                                .MakeGenericMethod(typeof(T));
-                            List<Column> columnAttributes = getColumnAttributeMethod.Invoke(sqlServerMapper, null) as List<Column>;
+                            MethodInfo getColumnMethod = sqlServerMapper
+                                                        .GetType()
+                                                        .GetMethod("GetColumns")
+                                                        .MakeGenericMethod(typeof(T));
+                            List<Column> columnAttributes = getColumnMethod.Invoke(sqlServerMapper, null) as List<Column>;
 
-                            string whereStr = string.Empty;
-                            if (foreignKeyAttributes != null)
+
+                            MethodInfo getFKMethod = sqlServerMapper
+                                                    .GetType()
+                                                    .GetMethod("GetFK")
+                                                    .MakeGenericMethod(new Type[] { typeArguments });
+                            List<ForeignKey> fkAttributes = getFKMethod.Invoke(sqlServerMapper, new object[] { relationshipAtrr.ReferID }) as List<ForeignKey>;
+
+
+                            string whereClause = string.Empty;
+                            if (fkAttributes !=null)
                             {
-                                foreach (ForeignKey foreignKeyAttribute in foreignKeyAttributes)
+                                foreach (ForeignKey fk in fkAttributes)
                                 {
-                                    Column column = GetColumn(foreignKeyAttribute.ReferID, columnAttributes);
-                                    if (column != null)
+                                    Column column = GetColumn(fk.ReferID, columnAttributes);
+                                    if (column!=null)
                                     {
                                         string format = "{0} = {1}, ";
                                         if (column.Type == DataType.NCHAR || column.Type == DataType.NVARCHAR)
@@ -54,18 +64,20 @@ namespace DAM_ORMFramework.Mapping
                                         else if (column.Type == DataType.CHAR || column.Type == DataType.VARCHAR)
                                             format = "{0} = '{1}', ";
 
-                                        whereStr += string.Format(format, foreignKeyAttribute.Name, dr[foreignKeyAttribute.ReferID]);
+                                        whereClause += string.Format(format, fk.Name, dr[fk.ReferID]);
                                     }
                                 }
                             }
-                            if (!string.IsNullOrEmpty(whereStr))
+                            if (!string.IsNullOrEmpty(whereClause))
                             {
-                                whereStr = whereStr.Substring(0, whereStr.Length - 2);
-                                string query = string.Format("SELECT * FROM {0} WHERE {1}", tableName, whereStr);
-
                                 cnn.Open();
-                                MethodInfo method = cnn.GetType().GetMethod("ExecuteQueryNotRelationship")
-                                .MakeGenericMethod(new Type[] { itemType });
+                                int whereLength = whereClause.Length;
+                                whereClause = whereClause.Substring(0, whereLength - 2);
+                                string query = string.Format("SELECT * FROM {0} WHERE {1}", tbName, whereClause);
+                                MethodInfo method = cnn
+                                                    .GetType()
+                                                    .GetMethod("ExecuteQueryNotRelationship")
+                                                    .MakeGenericMethod(new Type[] { typeArguments });
                                 props[i].SetValue(obj, method.Invoke(cnn, new object[] { query }));
                                 cnn.Close();
                             }
@@ -79,7 +91,101 @@ namespace DAM_ORMFramework.Mapping
 
         protected override void MapToOne<T>(SqlServerConnection cnn, DataRow dr, T obj)
         {
-            throw new NotImplementedException();
+            var props = typeof(T).GetProperties();
+            for(int i=0;i<props.Length; i++)
+            {
+                var attributes = props[i].GetCustomAttributes(false);
+                Type propType = props[i].PropertyType;
+
+                var oneToOneArr = getAllAttributes(attributes, typeof(OneToOne));
+                var manyToOneArr = getAllAttributes(attributes, typeof(ManyToOne));
+
+                var toOneAttr = new object[oneToOneArr.Length + manyToOneArr.Length];
+                if (toOneAttr.Length > 0)
+                {
+                    oneToOneArr.CopyTo(toOneAttr, 0);
+                    manyToOneArr.CopyTo(toOneAttr, oneToOneArr.Length);
+                }
+
+                if (toOneAttr != null && toOneAttr.Length > 0)
+                {
+                    for(int j=0; j< toOneAttr.Length; j++)
+                    {
+                        SqlMapper sqlServerMapper = new SqlMapper();
+                        string where = string.Empty;
+                        string table = string.Empty;
+                        string referID = string.Empty;
+
+                        if (toOneAttr[j].GetType() == typeof(ManyToOne))
+                        {
+
+                            referID = (toOneAttr[j] as ManyToOne).ReferID;
+                            table = (toOneAttr[j] as ManyToOne).TableName;
+                        }
+                        else
+                        {
+                            referID = (toOneAttr[j] as OneToOne).ReferID;
+                            table = (toOneAttr[j] as OneToOne).TableName;
+                        }
+
+                        MethodInfo getColumnsMethod = sqlServerMapper
+                              .GetType()
+                              .GetMethod("GetColumns")
+                              .MakeGenericMethod(new Type[] { propType });
+
+                        List<Column> columnAttributes = getColumnsMethod.Invoke(sqlServerMapper, null) as List<Column>;
+
+
+                        MethodInfo getFKMethod = sqlServerMapper
+                                                .GetType()
+                                                .GetMethod("GetFK")
+                                                .MakeGenericMethod(typeof(T));
+                        List<ForeignKey> fkAttributes = getFKMethod.Invoke(sqlServerMapper, new object[] { referID }) as List<ForeignKey>;
+
+
+                        if (fkAttributes != null)
+                        {
+                            foreach (ForeignKey fk in fkAttributes)
+                            {
+                                Column column = GetColumn(fk.Reference, columnAttributes);
+                                if (column != null)
+                                {
+                                    string format = "{0} = {1}, ";
+                                    if (column.Type == DataType.NCHAR || column.Type == DataType.NVARCHAR)
+                                        format = "{0} = N'{1}', ";
+                                    else if (column.Type == DataType.CHAR || column.Type == DataType.VARCHAR)
+                                        format = "{0} = '{1}', ";
+
+                                    where += string.Format(format, fk.Reference, dr[fk.Name]);
+                                }
+                            }
+                        }
+                        if (!string.IsNullOrEmpty(where))
+                        {
+                            cnn.Open();
+                            where = where.Substring(0, where.Length - 2);
+                            string query = string.Format("SELECT * FROM {0} WHERE {1}", table, where);
+
+                            MethodInfo executeMethod = cnn
+                                                .GetType()
+                                                .GetMethod("ExecuteQueryNotRelationship")
+                                                .MakeGenericMethod(new Type[] { propType });
+                            var ienumerable = (IEnumerable)executeMethod.Invoke(cnn, new object[] { query });
+                            cnn.Close();
+
+                            MethodInfo getFirstMethod = sqlServerMapper
+                                                 .GetType()
+                                                 .GetMethod("GetFirst");
+                            var first = getFirstMethod.Invoke(sqlServerMapper, new object[] { ienumerable });
+
+                            props[i].SetValue(obj, first);
+                        }
+
+                    }
+
+                }
+            }
+
         }
     }
 }
