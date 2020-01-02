@@ -17,7 +17,7 @@ namespace DAM_ORMFramework.Query
 
             string tableName = mapper.GetTable<T>();
             List<PrimaryKey> primaryKeys = mapper.GetPK<T>();
-            Dictionary<Column, object> listColumnNameValues = mapper.GetColumnValues<T>(obj);
+            Dictionary<Column, object> listColumnNameValues = mapper.GetValuesOfColumn<T>(obj);
 
             if (listColumnNameValues.Count != 0)
             {

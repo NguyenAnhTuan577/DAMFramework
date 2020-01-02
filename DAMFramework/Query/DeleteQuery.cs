@@ -14,14 +14,14 @@ namespace DAM_ORMFramework.Query
         public DeleteQuery(SqlConnection cnn, string cnnString, T obj) : base(cnn, cnnString)
         {
             SqlMapper mapper = new SqlMapper();
-            string tableName = mapper.GetTableName<T>();
-            List<PrimaryKey> primaryKeys = mapper.GetPrimaryKeys<T>();
-            Dictionary<Column, object> listColumnValues = mapper.GetColumnValues<T>(obj);
+            string tableName = mapper.GetTable<T>();
+            List<PrimaryKey> primaryKeys = mapper.GetPK<T>();
+            Dictionary<Column, object> listColumnValues = mapper.GetValuesOfColumn<T>(obj);
 
             string whereStr = string.Empty;
             foreach (PrimaryKey primaryKey in primaryKeys)
             {
-                Column column = mapper.FindColumn(primaryKey.Name, listColumnValues);
+                Column column = mapper.GetColumn(primaryKey.Name, listColumnValues);
                 if (column != null)
                 {
                     string format = "{0} = {1}, ";

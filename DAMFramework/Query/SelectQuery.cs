@@ -20,7 +20,7 @@ namespace DAM_ORMFramework.Query
 
             query = query.Substring(0, query.Length - 1);
 
-            query = string.Format("{0} FROM {1}", query, mapper.GetTableName<T>());
+            query = string.Format("{0} FROM {1}", query, mapper.GetTable<T>());
         }
 
         public static WhereClause<T> Create(SqlConnection cnn, string connectionString)

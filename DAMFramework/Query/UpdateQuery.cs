@@ -15,9 +15,9 @@ namespace DAM_ORMFramework.Query
         {
             SqlMapper mapper = new SqlMapper();
 
-            string tableName = mapper.GetTableName<T>();
-            List<PrimaryKey> primaryKeys = mapper.GetPrimaryKeys<T>();
-            Dictionary<Column, object> listColumnValues = mapper.GetColumnValues<T>(obj);
+            string tableName = mapper.GetTable<T>();
+            List<PrimaryKey> primaryKeys = mapper.GetPK<T>();
+            Dictionary<Column, object> listColumnValues = mapper.GetValuesOfColumn<T>(obj);
 
             if (listColumnValues != null && primaryKeys != null)
             {
@@ -39,7 +39,7 @@ namespace DAM_ORMFramework.Query
 
                 foreach (PrimaryKey primaryKey in primaryKeys)
                 {
-                    Column column = mapper.FindColumn(primaryKey.Name, listColumnValues);
+                    Column column = mapper.GetColumn(primaryKey.Name, listColumnValues);
                     if (column != null)
                     {
                         string format = "{0} = {1}, ";
