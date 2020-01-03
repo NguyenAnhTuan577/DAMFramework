@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace DAM_ORMFramework.Mapping
 {
-    abstract class Mapper
+    public abstract class Mapper
     {
-        protected abstract void MapOneToMany<T>(SqlServerConnection cnn, DataRow dr, T obj) where T : new();
-        protected abstract void MapToOne<T>(SqlServerConnection cnn, DataRow dr, T obj) where T : new();
+        protected abstract void MapOneToMany<T>(AbstractSqlConnection cnn, DataRow dr, T obj) where T : new();
+        protected abstract void MapToOne<T>(AbstractSqlConnection cnn, DataRow dr, T obj) where T : new();
 
-        public T MapRelationship<T>(SqlServerConnection cnn, DataRow dr) where T : new()
+        public T MapRelationship<T>(AbstractSqlConnection cnn, DataRow dr) where T : new()
         {
             T obj = new T();
             var props = typeof(T).GetProperties();
@@ -39,7 +39,7 @@ namespace DAM_ORMFramework.Mapping
             return obj;
         }
 
-        public T MapNotRelationship<T>(SqlServerConnection cnn, DataRow dr) where T : new()
+        public T MapNotRelationship<T>(AbstractSqlConnection cnn, DataRow dr) where T : new()
         {
             T obj = new T();
             var props = typeof(T).GetProperties();

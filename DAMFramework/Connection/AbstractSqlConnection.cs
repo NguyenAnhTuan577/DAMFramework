@@ -7,7 +7,7 @@ using DAM_ORMFramework.Query;
 
 namespace DAM_ORMFramework.Mapping
 {
-    abstract class AbstractSqlConnection
+    public abstract class AbstractSqlConnection
     {
         protected string cnnString { get; set; }
 

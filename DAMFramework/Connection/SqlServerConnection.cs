@@ -8,7 +8,7 @@ using DAM_ORMFramework.Query;
 
 namespace DAM_ORMFramework.Mapping
 {
-    class SqlServerConnection : AbstractSqlConnection
+    public class SqlServerConnection : AbstractSqlConnection
     {
 
         private SqlConnection cnn;

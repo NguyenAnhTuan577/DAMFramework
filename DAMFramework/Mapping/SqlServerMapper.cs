@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace DAM_ORMFramework.Mapping
 {
-    class SqlServerMapper : Mapper
+    public class SqlServerMapper : Mapper
     {
-        protected override void MapOneToMany<T>(SqlServerConnection cnn, DataRow dr, T obj)
+        protected override void MapOneToMany<T>(AbstractSqlConnection cnn, DataRow dr, T obj)
         {
             var props = typeof(T).GetProperties();
             for(int i =0;i<props.Length; i++)
@@ -90,7 +90,7 @@ namespace DAM_ORMFramework.Mapping
 
         }
 
-        protected override void MapToOne<T>(SqlServerConnection cnn, DataRow dr, T obj)
+        protected override void MapToOne<T>(AbstractSqlConnection cnn, DataRow dr, T obj)
         {
             var props = typeof(T).GetProperties();
             for(int i=0;i<props.Length; i++)
