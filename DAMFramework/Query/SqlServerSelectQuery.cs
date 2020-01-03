@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace DAM_ORMFramework.Query
 {
-    public class SelectQuery<T> : SqlQuery, WhereClause<T>, HavingClause<T>, GroupByClause<T>, CompletedQuery<T> where T : new()
+    public class SqlServerSelectQuery<T> : SqlServerQuery, WhereClause<T>, HavingClause<T>, GroupByClause<T>, CompletedQuery<T> where T : new()
     {
-        private SelectQuery(SqlConnection cnn, string connectionString) : base(cnn, connectionString)
+        private SqlServerSelectQuery(SqlConnection cnn, string connectionString) : base(cnn, connectionString)
         {
-            SqlMapper mapper = new SqlMapper();
+            SqlServerMapper mapper = new SqlServerMapper();
             query += "SELECT";
             foreach (Column column in mapper.GetColumns<T>())
                 query = string.Format("{0} {1},", query, column.Name);
@@ -25,7 +25,7 @@ namespace DAM_ORMFramework.Query
 
         public static WhereClause<T> Create(SqlConnection cnn, string connectionString)
         {
-            return new SelectQuery<T>(cnn, connectionString);
+            return new SqlServerSelectQuery<T>(cnn, connectionString);
         }
 
         public HavingClause<T> Where(string condition)

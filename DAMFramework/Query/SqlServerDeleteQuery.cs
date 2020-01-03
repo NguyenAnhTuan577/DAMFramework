@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace DAM_ORMFramework.Query
 {
-    public class DeleteQuery<T> : SqlQuery where T : new()
+    public class SqlServerDeleteQuery<T> : SqlServerQuery where T : new()
     {
-        public DeleteQuery(SqlConnection cnn, string cnnString, T obj) : base(cnn, cnnString)
+        public SqlServerDeleteQuery(SqlConnection cnn, string cnnString, T obj) : base(cnn, cnnString)
         {
-            SqlMapper mapper = new SqlMapper();
+            SqlServerMapper mapper = new SqlServerMapper();
             string tableName = mapper.GetTable<T>();
             List<PrimaryKey> primaryKeys = mapper.GetPK<T>();
             Dictionary<Column, object> listColumnValues = mapper.GetValuesOfColumn<T>(obj);

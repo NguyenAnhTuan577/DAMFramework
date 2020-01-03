@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace DAM_ORMFramework.Query
 {
-    public class SqlQuery : IQuery
+    public class SqlServerQuery : IQuery
     {
         protected string cnnString;
         protected SqlCommand command;
         protected string query;
 
-        public SqlQuery(SqlConnection cnn, string connecttring)
+        public SqlServerQuery(SqlConnection cnn, string connecttring)
         {
             cnnString = connecttring;
             command = new SqlCommand();
@@ -23,7 +23,7 @@ namespace DAM_ORMFramework.Query
             command.CommandType = CommandType.Text;
         }
 
-        public SqlQuery(SqlConnection cnn, string connectString, string query)
+        public SqlServerQuery(SqlConnection cnn, string connectString, string query)
         {
             cnnString = connectString;
             command = new SqlCommand();
@@ -42,7 +42,7 @@ namespace DAM_ORMFramework.Query
 
             List<T> res = new List<T>();
             SqlServerConnection cnn = new SqlServerConnection(cnnString);
-            SqlMapper mapper = new SqlMapper();
+            SqlServerMapper mapper = new SqlServerMapper();
 
             foreach (DataRow row in dataTable.Rows)
                 res.Add(mapper.MapRelationship<T>(cnn, row));
@@ -60,7 +60,7 @@ namespace DAM_ORMFramework.Query
 
             List<T> res = new List<T>();
             SqlServerConnection cnn = new SqlServerConnection(cnnString);
-            SqlMapper mapper = new SqlMapper();
+            SqlServerMapper mapper = new SqlServerMapper();
 
             foreach (DataRow row in dataTable.Rows)
                 res.Add(mapper.MapNotRelationship<T>(cnn, row));

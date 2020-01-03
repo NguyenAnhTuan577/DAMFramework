@@ -51,18 +51,18 @@
     <Compile Include="Attributes\Table.cs" />
     <Compile Include="Connection\AbstractSqlConnection.cs" />
     <Compile Include="Mapping\Mapper.cs" />
-    <Compile Include="Mapping\SqlMapper.cs" />
+    <Compile Include="Mapping\SqlServerMapper.cs" />
     <Compile Include="Connection\SqlServerConnection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Query\CompletedQuery.cs" />
-    <Compile Include="Query\DeleteQuery.cs" />
+    <Compile Include="Query\SqlServerDeleteQuery.cs" />
     <Compile Include="Query\GroupByClause.cs" />
     <Compile Include="Query\HavingClause.cs" />
-    <Compile Include="Query\InsertQuery.cs" />
+    <Compile Include="Query\SqlServerInsertQuery.cs" />
     <Compile Include="Query\IQuery.cs" />
-    <Compile Include="Query\SelectQuery.cs" />
-    <Compile Include="Query\SqlQuery.cs" />
-    <Compile Include="Query\UpdateQuery.cs" />
+    <Compile Include="Query\SqlServerSelectQuery.cs" />
+    <Compile Include="Query\SqlServerQuery.cs" />
+    <Compile Include="Query\SqlServerUpdateQuery.cs" />
     <Compile Include="Query\WhereClause.cs" />
   </ItemGroup>
   <ItemGroup />

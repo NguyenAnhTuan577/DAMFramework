@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DAM_ORMFramework.Mapping
 {
-    class SqlMapper : Mapper
+    class SqlServerMapper : Mapper
     {
         protected override void MapOneToMany<T>(SqlServerConnection cnn, DataRow dr, T obj)
         {
@@ -27,7 +27,7 @@ namespace DAM_ORMFramework.Mapping
                         Type type = props[i].PropertyType;
                         if (type.IsGenericType)
                         {
-                            SqlMapper sqlServerMapper = new SqlMapper();
+                            SqlServerMapper sqlServerMapper = new SqlServerMapper();
                             Type typeArguments = type.GetGenericArguments()[0];
                             MethodInfo getTableMethod = sqlServerMapper
                                                         .GetType()
@@ -112,7 +112,7 @@ namespace DAM_ORMFramework.Mapping
                 {
                     for(int j=0; j< toOneAttr.Length; j++)
                     {
-                        SqlMapper sqlServerMapper = new SqlMapper();
+                        SqlServerMapper sqlServerMapper = new SqlServerMapper();
                         string where = string.Empty;
                         string table = string.Empty;
                         string referID = string.Empty;

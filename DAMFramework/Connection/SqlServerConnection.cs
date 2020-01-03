@@ -32,32 +32,32 @@ namespace DAM_ORMFramework.Mapping
 
         public override int Delete<T>(T obj)
         {
-            DeleteQuery<T> deleteQuery = new DeleteQuery<T>(cnn, cnnString, obj);
-            return deleteQuery.ExecuteNonQuery();
+            SqlServerDeleteQuery<T> SqlServerDeleteQuery = new SqlServerDeleteQuery<T>(cnn, cnnString, obj);
+            return SqlServerDeleteQuery.ExecuteNonQuery();
         }
 
         public override int ExecuteNonQuery(string query)
         {
-            SqlQuery execute = new SqlQuery(cnn, cnnString, query);
+            SqlServerQuery execute = new SqlServerQuery(cnn, cnnString, query);
             return execute.ExecuteNonQuery();
         }
 
         public override List<T> ExecuteQuery<T>(string query)
         {
-            SqlQuery execute = new SqlQuery(cnn, cnnString, query);
+            SqlServerQuery execute = new SqlServerQuery(cnn, cnnString, query);
             return execute.ExecuteQuery<T>();
         }
 
         public override List<T> ExecuteQueryNotRelationship<T>(string query)
         {
-            SqlQuery execute = new SqlQuery(cnn, cnnString, query);
+            SqlServerQuery execute = new SqlServerQuery(cnn, cnnString, query);
             return execute.ExecuteQueryNotRelationship<T>();
         }
 
         public override int Insert<T>(T obj)
         {
-            InsertQuery<T> insertQuery = new InsertQuery<T>(cnn, cnnString, obj);
-            return insertQuery.ExecuteNonQuery();
+            SqlServerInsertQuery<T> SqlServerInsertQuery = new SqlServerInsertQuery<T>(cnn, cnnString, obj);
+            return SqlServerInsertQuery.ExecuteNonQuery();
         }
 
         public override void Open()
@@ -68,13 +68,13 @@ namespace DAM_ORMFramework.Mapping
 
         public override Query.WhereClause<T> Select<T>()
         {
-            return SelectQuery<T>.Create(cnn, cnnString);
+            return SqlServerSelectQuery<T>.Create(cnn, cnnString);
         }
 
         public override int Update<T>(T obj)
         {
-            UpdateQuery<T> updateQuery = new UpdateQuery<T>(cnn, cnnString, obj);
-            return updateQuery.ExecuteNonQuery();
+            SqlServerUpdateQuery<T> SqlServerUpdateQuery = new SqlServerUpdateQuery<T>(cnn, cnnString, obj);
+            return SqlServerUpdateQuery.ExecuteNonQuery();
         }
     }
 }

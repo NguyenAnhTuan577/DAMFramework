@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace DAM_ORMFramework.Query
 {
-    public class InsertQuery<T> : SqlQuery where T : new()
+    public class SqlServerInsertQuery<T> : SqlServerQuery where T : new()
     {
-        public InsertQuery(SqlConnection cnn, string cnnString, T obj) : base(cnn, cnnString)
+        public SqlServerInsertQuery(SqlConnection cnn, string cnnString, T obj) : base(cnn, cnnString)
         {
-            SqlMapper mapper = new SqlMapper();
+            SqlServerMapper mapper = new SqlServerMapper();
 
             string tableName = mapper.GetTable<T>();
             List<PrimaryKey> primaryKeys = mapper.GetPK<T>();
