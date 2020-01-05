@@ -26,13 +26,22 @@ namespace DAM_ORMFramework.Query
 
                 foreach (Column column in listColumnValues.Keys)
                 {
-                    string format = "{0} = {1}, ";
-                    if (column.Type == DataType.NCHAR || column.Type == DataType.NVARCHAR)
-                        format = "{0} = N'{1}', ";
-                    else if (column.Type == DataType.CHAR || column.Type == DataType.VARCHAR)
-                        format = "{0} = '{1}', ";
+                    bool generatePK = false;
+                    foreach(PrimaryKey pk in primaryKeys)
+                    {
+                        if (column.Name == pk.Name && pk.GenerateID == true)
+                            generatePK = true;
+                    }
+                    if (!generatePK)
+                    {
+                        string format = "{0} = {1}, ";
+                        if (column.Type == DataType.NCHAR || column.Type == DataType.NVARCHAR)
+                            format = "{0} = N'{1}', ";
+                        else if (column.Type == DataType.CHAR || column.Type == DataType.VARCHAR)
+                            format = "{0} = '{1}', ";
 
-                    setStr += string.Format(format, column.Name, listColumnValues[column]);
+                        setStr += string.Format(format, column.Name, listColumnValues[column]);
+                    }
                 }
                 if (!string.IsNullOrEmpty(setStr))
                     setStr = setStr.Substring(0, setStr.Length - 2);
