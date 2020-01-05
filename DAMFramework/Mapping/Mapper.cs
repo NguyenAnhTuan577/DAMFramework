@@ -99,7 +99,7 @@ namespace DAM_ORMFramework.Mapping
             {
                 var attr = props[i].GetCustomAttributes(false);
                 var fk = getFirstAttribute(attr, typeof(ForeignKey)); ;
-                if (fk != null)
+                if (fk != null && (fk as ForeignKey).ReferID == refID)
                     fks.Add(fk as ForeignKey);
             }
 
