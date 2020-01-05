@@ -23,7 +23,7 @@ namespace DAM_ORMFramework.Mapping
             for(int i=0; i < length; i++)
             {
                 var attributes = props[i].GetCustomAttributes(false);
-                var columnMapping = getFirstAttribute(attributes, typeof(T)); 
+                var columnMapping = getFirstAttribute(attributes, typeof(Column)); 
 
                 if (columnMapping != null)
                 {
@@ -48,8 +48,6 @@ namespace DAM_ORMFramework.Mapping
             for(int i = 0; i < length; i++)
             {
                 var attr = props[i].GetCustomAttributes(false);
-
-                //var columnMapping = HandleAttribute.FirstOrDefault(attr, typeof(Column));
 
                 var columnMapping = getFirstAttribute(attr, typeof(Column));
 
@@ -173,16 +171,16 @@ namespace DAM_ORMFramework.Mapping
             return null;
         }
 
-        protected object getFirstAttribute(object[] attributes, Type type)
-        {
+        protected object getFirstAttribute(object[] attributes, Type type) {
             int lenght = attributes.Length;
-            for(int i=0;i< lenght; i++)
+            for (int i = 0; i < lenght; i++)
             {
                 if (attributes[i].GetType() == type)
                     return attributes[i];
             }
 
             return null;
+
         }
 
         protected object[] getAllAttributes(object[] attributes, Type type)

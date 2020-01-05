@@ -59,11 +59,11 @@ namespace DAM_ORMFramework.Mapping
                                     Column column = GetColumn(fk.ReferID, columnAttributes);
                                     if (column!=null)
                                     {
-                                        string format = "{0} = {1}, ";
+                                        string format = "{0} = {1} and ";
                                         if (column.Type == DataType.NCHAR || column.Type == DataType.NVARCHAR)
-                                            format = "{0} = N'{1}', ";
+                                            format = "{0} = N'{1}' and ";
                                         else if (column.Type == DataType.CHAR || column.Type == DataType.VARCHAR)
-                                            format = "{0} = '{1}', ";
+                                            format = "{0} = '{1}' and ";
 
                                         whereClause += string.Format(format, fk.Name, dr[fk.ReferID]);
                                     }
@@ -73,7 +73,7 @@ namespace DAM_ORMFramework.Mapping
                             {
                                 cnn.Open();
                                 int whereLength = whereClause.Length;
-                                whereClause = whereClause.Substring(0, whereLength - 2);
+                                whereClause = whereClause.Substring(0, whereLength - 4);
                                 string query = string.Format("SELECT * FROM {0} WHERE {1}", tbName, whereClause);
                                 MethodInfo method = cnn
                                                     .GetType()
@@ -151,11 +151,11 @@ namespace DAM_ORMFramework.Mapping
                                 Column column = GetColumn(fk.Reference, columnAttributes);
                                 if (column != null)
                                 {
-                                    string format = "{0} = {1}, ";
+                                    string format = "{0} = {1} and ";
                                     if (column.Type == DataType.NCHAR || column.Type == DataType.NVARCHAR)
-                                        format = "{0} = N'{1}', ";
+                                        format = "{0} = N'{1}' and ";
                                     else if (column.Type == DataType.CHAR || column.Type == DataType.VARCHAR)
-                                        format = "{0} = '{1}', ";
+                                        format = "{0} = '{1}' and ";
 
                                     where += string.Format(format, fk.Reference, dr[fk.Name]);
                                 }
@@ -163,10 +163,10 @@ namespace DAM_ORMFramework.Mapping
                         }
                         if (!string.IsNullOrEmpty(where))
                         {
-                            cnn.Open();
-                            where = where.Substring(0, where.Length - 2);
-                            string query = string.Format("SELECT * FROM {0} WHERE {1}", table, where);
 
+                            where = where.Substring(0, where.Length - 4);
+                            string query = string.Format("SELECT * FROM {0} WHERE {1}", table, where);
+                            cnn.Open();
                             MethodInfo executeMethod = cnn
                                                 .GetType()
                                                 .GetMethod("ExecuteQueryNotRelationship")
@@ -179,7 +179,7 @@ namespace DAM_ORMFramework.Mapping
                                                  .GetMethod("GetFirst");
                             var first = getFirstMethod.Invoke(sqlServerMapper, new object[] { ienumerable });
 
-                            props[i].SetValue(obj, first);
+                            props[i].SetValue(obj, Convert.ChangeType(first, props[i].PropertyType) );
                         }
 
                     }
