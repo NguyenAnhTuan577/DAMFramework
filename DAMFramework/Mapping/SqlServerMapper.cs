@@ -56,7 +56,7 @@ namespace DAM_ORMFramework.Mapping
                             {
                                 foreach (ForeignKey fk in fkAttributes)
                                 {
-                                    Column column = GetColumn(fk.ReferID, columnAttributes);
+                                    Column column = GetColumn(fk.Reference, columnAttributes);
                                     if (column!=null)
                                     {
                                         string format = "{0} = {1} and ";
@@ -65,7 +65,7 @@ namespace DAM_ORMFramework.Mapping
                                         else if (column.Type == DataType.CHAR || column.Type == DataType.VARCHAR)
                                             format = "{0} = '{1}' and ";
 
-                                        whereClause += string.Format(format, fk.Name, dr[fk.ReferID]);
+                                        whereClause += string.Format(format, fk.Name, dr[fk.Reference]);
                                     }
                                 }
                             }
